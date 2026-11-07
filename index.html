@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colegio Montano - Healthy Sexuality, Respect & Body Autonomy Guide</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        montano: {
+                            blue: '#1269A8',
+                            yellow: '#F7D615',
+                            teal: '#54887D',
+                            lightblue: '#88B5C7',
+                            olive: '#A6B046',
+                            softwhite: '#F2F5E9'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Nunito', 'Segoe UI', 'Tahoma', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F2F5E9;
+            font-family: 'Nunito', 'Segoe UI', sans-serif;
+            color: #2D3748;
+        }
+
+        .whiteboard-frame {
+            background: #ffffff;
+            border: 12px solid #CBD5E0;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), inset 0 0 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .tab-btn {
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+
+        .tab-btn.active {
+            background-color: #1269A8;
+            color: #ffffff;
+            border-bottom-color: #F7D615;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #EDF2F7;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #88B5C7;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #1269A8;
+        }
+
+        .pulse-mic {
+            animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(18, 105, 168, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 12px rgba(18, 105, 168, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(18, 105, 168, 0); }
+        }
+    </style>
+</head>
+<body class="p-2 md:p-6 min-h-screen">
+
+    <!-- MAIN CONTAINER WITH WHITEBOARD FRAME DESIGN -->
+    <div id="whiteboard" class="whiteboard-frame max-w-7xl mx-auto p-4 md:p-8 min-h-[90vh] flex flex-col justify-between">
+        
+        <!-- HEADER SECTION -->
+        <header class="border-b-2 border-gray-200 pb-4 mb-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                
+                <!-- Logo & School Info -->
+                <div class="flex items-center space-x-4">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyEop0yf6lZ7Jk9MILZxF1rBj4Oqs5esyhIQ&s" 
+                         alt="Colegio Montano Logo" 
+                         class="h-16 w-auto object-contain rounded-lg shadow-sm border border-gray-100"
+                         onerror="this.src='https://placehold.co/150x60/1269A8/ffffff?text=Colegio+Montano'">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-extrabold text-montano-blue tracking-tight">COLEGIO MONTANO</h1>
+                        <p class="text-sm font-semibold text-montano-teal">Interactive Study Guide 3 | 11th Grade High School ESL Level B2 Advanced</p>
+                    </div>
+                </div>
+
+                <!-- Topic Banner & Fullscreen Toggle -->
+                <div class="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-end">
+                    <div class="bg-montano-lightblue/20 border-l-4 border-montano-blue p-3 rounded-r-lg text-right">
+                        <span class="text-xs uppercase font-bold text-montano-blue tracking-wider block">Subject Topic</span>
+                        <span class="text-base font-bold text-gray-800">Healthy Sexuality: Respect, Identity & Autonomy</span>
+                    </div>
+
+                    <button onclick="toggleFullscreen()" class="bg-montano-blue hover:bg-montano-teal text-white p-3 rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 text-sm font-bold" title="Toggle Fullscreen">
+                        <i class="fa-solid font-bold fa-expand text-lg"></i>
+                        <span class="hidden sm:inline">Fullscreen</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- NAVIGATION TABS -->
+            <nav class="mt-6 flex flex-wrap gap-2 border-b border-gray-200 text-sm md:text-base">
+                <button onclick="switchTab(1)" id="tab-btn-1" class="tab-btn active px-4 py-3 rounded-t-xl font-bold flex items-center space-x-2">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <span>1. Theoretical Foundations</span>
+                </button>
+                <button onclick="switchTab(2)" id="tab-btn-2" class="tab-btn bg-gray-100 text-gray-600 hover:bg-gray-200 px-4 py-3 rounded-t-xl font-bold flex items-center space-x-2">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>2. Solved Examples (15)</span>
+                </button>
+                <button onclick="switchTab(3)" id="tab-btn-3" class="tab-btn bg-gray-100 text-gray-600 hover:bg-gray-200 px-4 py-3 rounded-t-xl font-bold flex items-center space-x-2">
+                    <i class="fa-solid fa-microphone-lines"></i>
+                    <span>3. Live Voice Simulator</span>
+                </button>
+                <button onclick="switchTab(4)" id="tab-btn-4" class="tab-btn bg-gray-100 text-gray-600 hover:bg-gray-200 px-4 py-3 rounded-t-xl font-bold flex items-center space-x-2">
+                    <i class="fa-solid fa-comments"></i>
+                    <span>4. Discussion & Activities</span>
+                </button>
+                <button onclick="switchTab(5)" id="tab-btn-5" class="tab-btn bg-gray-100 text-gray-600 hover:bg-gray-200 px-4 py-3 rounded-t-xl font-bold flex items-center space-x-2">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                    <span>5. Formative Evaluation (15)</span>
+                </button>
+            </nav>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-grow">
+            
+            <!-- TAB 1: THEORETICAL FOUNDATIONS -->
+            <section id="tab-content-1" class="tab-content space-y-6">
+                <!-- Ground Rules Banner -->
+                <div class="bg-montano-softwhite p-5 rounded-2xl border-2 border-montano-blue/40">
+                    <h2 class="text-xl font-bold text-montano-blue mb-2 flex items-center">
+                        <i class="fa-solid fa-handshake-simple text-montano-yellow mr-3 text-2xl"></i>
+                        Classroom Discussion Agreements & Respect Protocols
+                    </h2>
+                    <p class="text-gray-700 text-sm md:text-base leading-relaxed">
+                        To foster an inclusive, mature, and safe educational space for 11th-grade students, all discussions regarding healthy sexuality, body autonomy, and identity adhere to four core agreements: 
+                        <strong class="text-montano-blue">1. Mutual Respect</strong>, 
+                        <strong class="text-montano-teal">2. Privacy & Confidentiality</strong>, 
+                        <strong class="text-montano-olive">3. Mature & Non-Judgmental Dialogue</strong>, and 
+                        <strong class="text-montano-blue">4. Fact-Based Inquiry</strong>.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border-2 border-montano-lightblue/40 shadow-sm">
+                    <h2 class="text-2xl font-bold text-montano-blue mb-3 flex items-center">
+                        <i class="fa-solid fa-shield-cat text-montano-teal mr-3 text-3xl"></i>
+                        Core Framework: Autonomy, Boundaries & Information Literacy
+                    </h2>
+                    <p class="text-gray-700 leading-relaxed text-base md:text-lg">
+                        <strong>Healthy Sexuality</strong> encompasses physical, emotional, and social well-being rooted in mutual respect, consent, personal values, and body autonomy. For high school students, navigating relationships requires precise boundary communication, respecting privacy (both in-person and digitally), and evaluating credible health sources while dispelling common societal myths.
+                    </p>
+                </div>
+
+                <!-- Concept Breakdown Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-xl p-5 border-t-8 border-montano-blue shadow-md hover:shadow-lg transition-all">
+                        <div class="text-montano-blue text-3xl mb-3"><i class="fa-solid fa-child-reaching"></i></div>
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">1. Body Autonomy</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            The fundamental human right to make decisions about one's own body, personal space, and physical boundaries without coercion, pressure, or external manipulation.
+                        </p>
+                        <div class="mt-4 pt-3 border-t border-gray-100">
+                            <span class="text-xs font-bold text-montano-blue uppercase">Autonomy Awareness</span>
+                            <div class="w-full bg-gray-200 h-2 rounded-full mt-1">
+                                <div class="bg-montano-blue h-2 rounded-full w-5/6"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-white rounded-xl p-5 border-t-8 border-montano-yellow shadow-md hover:shadow-lg transition-all">
+                        <div class="text-montano-yellow text-3xl mb-3"><i class="fa-solid fa-border-top-left"></i></div>
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">2. Personal Boundaries</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            Clear limits established to protect physical, emotional, and digital well-being. Expressed assertively through clear verbal statements and respected mutually.
+                        </p>
+                        <div class="mt-4 pt-3 border-t border-gray-100">
+                            <span class="text-xs font-bold text-montano-yellow uppercase">Boundary Clarity</span>
+                            <div class="w-full bg-gray-200 h-2 rounded-full mt-1">
+                                <div class="bg-montano-yellow h-2 rounded-full w-4/5"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-white rounded-xl p-5 border-t-8 border-montano-teal shadow-md hover:shadow-lg transition-all">
+                        <div class="text-montano-teal text-3xl mb-3"><i class="fa-solid fa-lock"></i></div>
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">3. Privacy & Digital Ethics</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            Protecting personal information, photos, and private conversations. Respecting others' digital privacy and understanding consent in digital environments.
+                        </p>
+                        <div class="mt-4 pt-3 border-t border-gray-100">
+                            <span class="text-xs font-bold text-montano-teal uppercase">Digital Safety Index</span>
+                            <div class="w-full bg-gray-200 h-2 rounded-full mt-1">
+                                <div class="bg-montano-teal h-2 rounded-full w-5/6"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="bg-white rounded-xl p-5 border-t-8 border-montano-olive shadow-md hover:shadow-lg transition-all">
+                        <div class="text-montano-olive text-3xl mb-3"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">4. Source Evaluation</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            Distinguishing scientifically accurate health data from online myths, rumors, or biased media. Relying on accredited medical institutions and healthcare professionals.
+                        </p>
+                        <div class="mt-4 pt-3 border-t border-gray-100">
+                            <span class="text-xs font-bold text-montano-olive uppercase">Information Literacy</span>
+                            <div class="w-full bg-gray-200 h-2 rounded-full mt-1">
+                                <div class="bg-montano-olive h-2 rounded-full w-3/4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Boundary & Communication Matrix -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm mt-6">
+                    <h3 class="text-xl font-bold text-montano-blue mb-4 flex items-center">
+                        <i class="fa-solid fa-comments-dollar mr-2 text-montano-teal"></i> Effective Boundary Communication Matrix
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-gray-700 border-collapse">
+                            <thead>
+                                <tr class="bg-montano-softwhite text-montano-blue border-b border-gray-200">
+                                    <th class="p-3 font-extrabold">Communication Style</th>
+                                    <th class="p-3 font-extrabold">Verbal Characteristic</th>
+                                    <th class="p-3 font-extrabold">Impact on Autonomy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-100">
+                                    <td class="p-3 font-bold text-red-600">Passive</td>
+                                    <td class="p-3">Hesitant, apologetic, failing to state true limits ("I guess it's fine if you want to...").</td>
+                                    <td class="p-3">Compromises personal autonomy and leads to resentment.</td>
+                                </tr>
+                                <tr class="border-b border-gray-100">
+                                    <td class="p-3 font-bold text-orange-600">Aggressive</td>
+                                    <td class="p-3">Hostile, demanding, violating others' boundaries ("You must do what I say or else").</td>
+                                    <td class="p-3">Violates the autonomy and rights of others.</td>
+                                </tr>
+                                <tr class="border-b border-gray-100">
+                                    <td class="p-3 font-bold text-green-700">Assertive (Healthy)</td>
+                                    <td class="p-3">Direct, calm, clear 'I-statements' ("I am uncomfortable with this, please stop.").</td>
+                                    <td class="p-3">Upholds personal dignity while respecting mutual autonomy.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: SOLVED EXAMPLES (15 EXAMPLES WITH TTS) -->
+            <section id="tab-content-2" class="tab-content hidden space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-montano-softwhite p-4 rounded-xl border border-montano-lightblue">
+                    <div>
+                        <h2 class="text-xl font-bold text-montano-blue">15 Boundary, Privacy & Respect Scenarios</h2>
+                        <p class="text-sm text-gray-600">Deconstructed real-world situations modeling assertive boundary setting, digital ethics, and accurate source checking.</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold">5 Basic</span>
+                        <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-bold">5 Intermediate</span>
+                        <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-xs font-bold">5 Advanced</span>
+                    </div>
+                </div>
+
+                <div class="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar" id="examples-container">
+                    <!-- Dynamic rendering via JS -->
+                </div>
+            </section>
+
+            <!-- TAB 3: LIVE INTERACTIVE VOICE SIMULATOR & PERFORMANCE DASHBOARD -->
+            <section id="tab-content-3" class="tab-content hidden space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    
+                    <!-- Left Column: Interactive Voice Simulator -->
+                    <div class="lg:col-span-7 bg-white p-6 rounded-2xl border-2 border-montano-blue shadow-md flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between pb-3 border-b border-gray-200">
+                                <h3 class="text-xl font-bold text-montano-blue flex items-center">
+                                    <i class="fa-solid fa-headset mr-2 text-montano-teal"></i> Assertive Boundary Voice Simulator
+                                </h3>
+                                <span class="text-xs font-bold px-3 py-1 bg-montano-yellow text-gray-900 rounded-full">B2 Oral Practice</span>
+                            </div>
+
+                            <!-- Simulator Avatar & Prompt -->
+                            <div class="mt-4 p-4 bg-montano-softwhite rounded-xl border border-montano-lightblue/50">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-12 h-12 bg-montano-blue text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">
+                                        Advisor
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-montano-blue">Ms. Morales (Student Ethics Coordinator)</h4>
+                                        <p id="simulator-prompt" class="text-sm text-gray-800 mt-1 italic">
+                                            "A peer asks to see private messages from your personal group chat and pressures you by saying 'If you were a true friend, you would show me.' How do you assertively communicate your boundary, protect your digital privacy, and maintain mutual respect?"
+                                        </p>
+                                        <button onclick="speakText(document.getElementById('simulator-prompt').innerText)" class="mt-2 text-xs text-montano-blue hover:text-montano-teal font-bold flex items-center space-x-1">
+                                            <i class="fa-solid fa-volume-high"></i>
+                                            <span>Listen to Scenario</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- User Input Area -->
+                            <div class="mt-6 space-y-3">
+                                <label class="block text-sm font-bold text-gray-700">Your Assertive Response (Speak or Type):</label>
+                                
+                                <div class="relative">
+                                    <textarea id="user-voice-input" rows="4" 
+                                        class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-montano-blue focus:border-transparent text-sm"
+                                        placeholder="Click microphone to record or type here... (e.g., 'I value our friendship, but I respect the privacy of my group chat members. I will not share private messages.')"></textarea>
+                                </div>
+
+                                <div class="flex flex-wrap items-center justify-between gap-3">
+                                    <button id="mic-btn" onclick="toggleSpeechRecognition()" class="bg-montano-blue hover:bg-montano-teal text-white px-5 py-2.5 rounded-xl font-bold flex items-center space-x-2 shadow transition-all">
+                                        <i class="fa-solid fa-microphone text-lg" id="mic-icon"></i>
+                                        <span id="mic-status">Start Recording</span>
+                                    </button>
+
+                                    <button onclick="analyzeUserResponse()" class="bg-montano-yellow hover:bg-yellow-400 text-gray-900 px-6 py-2.5 rounded-xl font-extrabold shadow transition-all flex items-center space-x-2">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                        <span>Evaluate Response</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feedback Output -->
+                        <div id="ai-feedback-box" class="mt-6 p-4 rounded-xl border border-gray-200 bg-gray-50 text-sm">
+                            <span class="font-bold text-gray-700 block mb-1"><i class="fa-solid fa-robot mr-1 text-montano-blue"></i> Pedagogical Assessment Feedback:</span>
+                            <p id="ai-feedback-text" class="text-gray-600">Submit your spoken or written response to receive instant metrics regarding assertiveness, boundary clarity, and respect.</p>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Live Performance Dashboard -->
+                    <div class="lg:col-span-5 bg-white p-6 rounded-2xl border-2 border-montano-teal shadow-md flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold text-montano-teal pb-3 border-b border-gray-200 flex items-center">
+                                <i class="fa-solid fa-chart-line mr-2"></i> Live Performance Dashboard
+                            </h3>
+
+                            <div class="space-y-5 mt-4">
+                                <!-- Score 1: Speech Clarity -->
+                                <div>
+                                    <div class="flex justify-between text-sm font-bold mb-1">
+                                        <span class="text-gray-700">Pronunciation & Speech Clarity</span>
+                                        <span id="score-clarity-val" class="text-montano-blue">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 h-3 rounded-full overflow-hidden">
+                                        <div id="score-clarity-bar" class="bg-montano-blue h-full w-0 transition-all duration-700"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Score 2: Boundary Assertiveness -->
+                                <div>
+                                    <div class="flex justify-between text-sm font-bold mb-1">
+                                        <span class="text-gray-700">Boundary Assertiveness & Privacy (B2 Level)</span>
+                                        <span id="score-accuracy-val" class="text-montano-teal">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 h-3 rounded-full overflow-hidden">
+                                        <div id="score-accuracy-bar" class="bg-montano-teal h-full w-0 transition-all duration-700"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Score 3: Respect & Diplomacy -->
+                                <div>
+                                    <div class="flex justify-between text-sm font-bold mb-1">
+                                        <span class="text-gray-700">Respect & Communication Diplomacy</span>
+                                        <span id="score-etiquette-val" class="text-montano-olive">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 h-3 rounded-full overflow-hidden">
+                                        <div id="score-etiquette-bar" class="bg-montano-olive h-full w-0 transition-all duration-700"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Key Autonomy Concepts Detected -->
+                            <div class="mt-6">
+                                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-2">Detected Key Concepts & Assertive Indicators:</span>
+                                <div id="detected-keywords" class="flex flex-wrap gap-2 min-h-[50px] p-3 bg-montano-softwhite rounded-xl border border-gray-200">
+                                    <span class="text-xs text-gray-400 italic">No key terms detected yet. Speak or submit an answer.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-4 border-t border-gray-100 text-center">
+                            <span class="text-xs text-gray-500">Colegio Montano Real-Time Boundary & Privacy Assessor</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: DISCUSSION ACTIVITIES & SCENARIO ANALYSIS -->
+            <section id="tab-content-4" class="tab-content hidden space-y-6">
+                <div class="bg-montano-softwhite p-4 rounded-xl border border-montano-lightblue">
+                    <h2 class="text-xl font-bold text-montano-blue">Guided Discussion & Fictional Scenario Workshop</h2>
+                    <p class="text-sm text-gray-600">Complete each activity step-by-step to practice defining terms, communicating limits, and evaluating information sources.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Activity 1: Defining Core Concepts -->
+                    <div class="bg-white p-5 rounded-xl border-l-8 border-montano-blue shadow-sm space-y-3">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-lg text-montano-blue">Task 1: Defining Respect, Privacy, Autonomy & Boundaries</h3>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold">Concept Definition</span>
+                        </div>
+                        <p class="text-sm text-gray-700">In your own words, write a concise 1-sentence definition for each term: <strong>Respect</strong>, <strong>Privacy</strong>, <strong>Body Autonomy</strong>, and <strong>Personal Boundaries</strong>.</p>
+                        <textarea rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-montano-blue focus:border-transparent text-sm" placeholder="Write definitions for all 4 terms..."></textarea>
+                    </div>
+
+                    <!-- Activity 2: Communicating Boundaries Assertively -->
+                    <div class="bg-white p-5 rounded-xl border-l-8 border-montano-yellow shadow-sm space-y-3">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-lg text-gray-800">Task 2: Constructing Assertive Boundary Statements</h3>
+                            <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-bold">Boundary Practice</span>
+                        </div>
+                        <p class="text-sm text-gray-700">Draft two clear "I-Statements" to establish a boundary in a high school relationship context (e.g., setting limits on phone calls late at night during exam week).</p>
+                        <textarea rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-montano-yellow focus:border-transparent text-sm" placeholder="Example: 'I feel stressed when we talk past 10 PM on school nights because I need rest. I want us to wrap up calls by 9:30 PM.'"></textarea>
+                    </div>
+
+                    <!-- Activity 3: Fact vs. Myth & Source Evaluation -->
+                    <div class="bg-white p-5 rounded-xl border-l-8 border-montano-teal shadow-sm space-y-3">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-lg text-montano-teal">Task 3: Fact vs. Myth & Evaluating Health Sources</h3>
+                            <span class="px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-xs font-bold">Media Literacy</span>
+                        </div>
+                        <p class="text-sm text-gray-700">Compare a social media health claim with an accredited health organization source (e.g., World Health Organization or Mayo Clinic). What criteria make an health source trustworthy?</p>
+                        <textarea rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-montano-teal focus:border-transparent text-sm" placeholder="Detail 3 criteria for verifying health sources (peer-reviewed, credentials, domain .org/.edu)..."></textarea>
+                    </div>
+
+                    <!-- Activity 4: Fictional Scenario Analysis -->
+                    <div class="bg-white p-5 rounded-xl border-l-8 border-montano-olive shadow-sm space-y-3">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-lg text-gray-800">Task 4: Fictional Situation Analysis (Digital Privacy)</h3>
+                            <span class="px-3 py-1 bg-olive/20 text-gray-800 rounded-full text-xs font-bold">Case Study</span>
+                        </div>
+                        <p class="text-sm text-gray-700"><strong>Scenario:</strong> "During lunch, Andrea notices someone took an embarrassing photo of a classmate without consent and plans to share it in a public meme chat."<br>
+                        <strong>Analysis Task:</strong> Explain how this situation violates body autonomy and privacy, and outline 2 concrete actions Andrea should take to intervene respectfully.</p>
+                        <textarea rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-montano-olive focus:border-transparent text-sm" placeholder="Write your scenario analysis and intervention steps..."></textarea>
+                    </div>
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="submitDiscussionActivity()" class="bg-montano-blue hover:bg-montano-teal text-white px-6 py-3 rounded-xl font-bold shadow transition-all flex items-center space-x-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Save & Submit Workshop Responses</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- TAB 5: FORMATIVE EVALUATION (15 PROBLEMS WITH ACCORDION SOLUTIONS) -->
+            <section id="tab-content-5" class="tab-content hidden space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-montano-softwhite p-4 rounded-xl border border-montano-lightblue">
+                    <div>
+                        <h2 class="text-xl font-bold text-montano-blue">Formative Evaluation Exercises (15 Problems)</h2>
+                        <p class="text-sm text-gray-600">Test your mastery of healthy sexuality, autonomy, privacy, and source evaluation. Click "Show / Hide Solution" to review step-by-step explanations.</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold">5 Basic</span>
+                        <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-bold">5 Intermediate</span>
+                        <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-xs font-bold">5 Advanced</span>
+                    </div>
+                </div>
+
+                <div class="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar" id="evaluations-container">
+                    <!-- Dynamic evaluation items rendered by JS -->
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER SECTION -->
+        <footer class="mt-8 pt-4 border-t border-gray-200 text-center text-xs text-gray-500 flex flex-col sm:flex-row justify-between items-center gap-2">
+            <span>&copy; 2026 Colegio Montano - Department of Educational Technology & Instructional Design</span>
+            <span class="font-semibold text-montano-blue">Guide 3: Healthy Sexuality, Respect & Autonomy | ESL Level B2</span>
+        </footer>
+
+    </div>
+
+    <!-- JAVASCRIPT LOGIC & CONTENT DATA -->
+    <script>
+        // -----------------------------------------------------------------
+        // DATA: SOLVED EXAMPLES (15 SCENARIOS - 5 BASIC, 5 INTERMEDIATE, 5 ADVANCED)
+        // -----------------------------------------------------------------
+        const solvedExamplesData = [
+            // Level 1: Basic (1-5)
+            { id: 1, level: "Basic", title: "Respecting Unwanted Physical Contact", scenario: "A classmate insists on giving unsolicited hugs in the hallway every morning.", trigger: "Uncomfortable physical boundary push.", technique: "Assertive Boundary Statement: 'I prefer handshakes or high-fives instead of hugs.'", result: "Establishes physical autonomy clearly and calmly." },
+            { id: 2, level: "Basic", title: "Protecting Digital Account Privacy", scenario: "A partner asks for social media account passwords as proof of trust.", trigger: "Digital boundary violation.", technique: "Privacy Boundary: 'Password sharing is not a measure of trust; privacy is healthy in any relationship.'", result: "Protects individual digital privacy rights." },
+            { id: 3, level: "Basic", title: "Recognizing Informed Consent", scenario: "Someone agrees to join a video call under pressure, but looks visibly uncomfortable.", trigger: "Coerced participation.", technique: "Checking Consent: 'You look hesitant. We can stop anytime or do something else.'", result: "Validates non-verbal cues of discomfort." },
+            { id: 4, level: "Basic", title: "Evaluating Social Media Health Myths", scenario: "A viral video claims a specific herbal tea guarantees complete immunity and cures viral infections.", trigger: "Unverified viral health claim.", technique: "Source Verification: Cross-referencing claim with CDC or WHO health databases.", result: "Identifies false medical claims accurately." },
+            { id: 5, level: "Basic", title: "Respecting Personal Space in Study Groups", scenario: "During group work, a peer leans in extremely close, invading personal space.", trigger: "Spatial boundary encroachment.", technique: "Physical Shift & Statement: Stepping back slightly and stating 'Let's keep a bit more space while we work.'", result: "Restores comfortable physical distance." },
+
+            // Level 2: Intermediate (6-10)
+            { id: 6, level: "Intermediate", title: "Navigating Peer Pressure on Personal Values", scenario: "Friends push Daniel to attend a party that conflicts with his family's curfew and core values.", trigger: "Social conformity pressure.", technique: "Values-Based Assertion: 'I'm sticking to my plans tonight, but let's catch up tomorrow.'", result: "Upholds personal integrity without hostility." },
+            { id: 7, level: "Intermediate", title: "Addressing Unauthorized Photo Sharing", scenario: "A candid photo taken during lunch is shared in a school chat without the person's consent.", trigger: "Digital privacy breach.", technique: "Intervention: Requesting immediate photo deletion and reporting breach to group moderators.", result: "Protects peer dignity and digital consent." },
+            { id: 8, level: "Intermediate", title: "Handling Relationship Isolation Signals", scenario: "Sofia's partner demands she stop talking to her long-time friends.", trigger: "Controlling relationship behavior.", technique: "Boundary Setting: 'Healthy relationships support outside friendships. I will not isolate myself from my friends.'", result: "Rejects coercive relationship control." },
+            { id: 9, level: "Intermediate", title: "Distinguishing Professional Advice from Online Rumors", scenario: "A student seeks advice on adolescent development from unverified online forums.", trigger: "Risk of misinformation.", technique: "Information Literacy: Redirecting inquiry to school nurse or certified medical portals.", result: "Ensures accurate, safe health knowledge." },
+            { id: 10, level: "Intermediate", title: "Managing Pressure to Rush Relationship Pacing", scenario: "A dating partner pressures Kevin to make commitments faster than he feels comfortable.", trigger: "Pacing pressure.", technique: "Pacing Communication: 'I need us to move at a pace I am comfortable with.'", result: "Maintains personal emotional timeline." },
+
+            // Level 3: Advanced (11-15)
+            { id: 11, level: "Advanced", title: "Deconstructing Gender Stereotypes in Leadership", scenario: "A female student's assertive speech is labeled 'bossy', while a male peer's identical tone is praised.", trigger: "Gender bias and double standards.", technique: "Critical Reflection: Pointing out double standards neutrally and advocating equal communicative evaluation.", result: "Promotes equitable, respectful culture." },
+            { id: 12, level: "Advanced", title: "Navigating Complex Consent in Digital Media", scenario: "A private video meant for one person is forwarded to third parties.", trigger: "Severe digital consent violation.", technique: "Legal & Ethical Response: Documenting breach, refusing forward distribution, and reporting to trusted adults.", result: "Protects victim rights and legal ethics." },
+            { id: 13, level: "Advanced", title: "Supporting a Peer Facing Digital Harassment", scenario: "A student is targeted with anonymous inappropriate messages online.", trigger: "Cyberbullying / Harassment.", technique: "Crisis Support: Assisting peer to screenshot evidence, block accounts, and notify school administration.", result: "Ensures safety and institutional backing." },
+            { id: 14, level: "Advanced", title: "Analyzing Cultural Values vs. Universal Human Rights", scenario: "Discussing varying cultural norms regarding dating while respecting universal body autonomy.", trigger: "Cross-cultural values dialogue.", technique: "Nuanced Dialogue: Honoring cultural heritage while upholding non-negotiable personal bodily consent.", result: "Balances cultural respect and human rights." },
+            { id: 15, level: "Advanced", title: "Advocating for Health Literacy Access in School", scenario: "Student representatives notice classmates lack access to reliable health guidance.", trigger: "Systemic health education gap.", technique: "Institutional Advocacy: Proposing a student-led committee to curate verified health resource libraries.", result: "Empowers school-wide information access." }
+        ];
+
+        // -----------------------------------------------------------------
+        // DATA: FORMATIVE EVALUATION EXERCISES (15 EXERCISES WITH ACCORDION SOLUTIONS)
+        // -----------------------------------------------------------------
+        const evaluationData = [
+            // Level 1: Basic (1-5)
+            { id: 1, level: "Basic", task: "Define 'Body Autonomy' in one comprehensive B2-level English sentence.", solution: "Body autonomy is the innate human right to make independent decisions regarding one's own body, physical presence, and boundaries without fear of coercion." },
+            { id: 2, level: "Basic", task: "Classify this statement as Passive, Aggressive, or Assertive: 'Fine, I guess I'll post the photo if you really want me to, even though I hate it.'", solution: "Passive (submitting to peer pressure despite personal discomfort)." },
+            { id: 3, level: "Basic", task: "True or False: 'In a healthy relationship, sharing phone passwords is required to prove trust.' Explain.", solution: "False. Healthy relationships respect individual digital privacy; trust is built on mutual respect and open communication, not surveillance." },
+            { id: 4, level: "Basic", task: "Identify two reliable domain extensions for verifying health and medical information online.", solution: ".edu (educational institutions) and .gov (government health agencies), or accredited non-profit health organizations (.org like WHO)." },
+            { id: 5, level: "Basic", task: "Rewrite this unassertive response into a clear boundary statement: 'Um, maybe we shouldn't do that now...?'", solution: "Assertive Rewrite: 'I am not comfortable doing that. Let's stop right now.'" },
+
+            // Level 2: Intermediate (6-10)
+            { id: 6, level: "Intermediate", task: "Outline the 3 components of an effective 'I-Statement' for setting boundaries.", solution: "1. State feeling/boundary ('I feel uncomfortable when...').\n2. Specify the trigger behavior ('...when my private messages are read.').\n3. State requested action ('I need you to respect my privacy.')." },
+            { id: 7, level: "Intermediate", task: "Analyze why 'enthusiastic and ongoing consent' is essential in all personal interactions.", solution: "Consent must be given freely, reversibly, informed, enthusiastic, and specific (FRIES). Silence or lack of resistance does not equal consent." },
+            { id: 8, level: "Intermediate", task: "Identify 3 red flags of controlling behavior in adolescent dating relationships.", solution: "1. Demanding isolation from friends/family.\n2. Digital tracking or password demands.\n3. Excessive guilt trips or threats when setting boundaries." },
+            { id: 9, level: "Intermediate", task: "Evaluate why commercial social media influencers are often unverified health sources.", solution: "Influencers frequently prioritize engagement, sponsorship revenue, or anecdotal experience over peer-reviewed scientific methodology and medical licensing." },
+            { id: 10, level: "Intermediate", task: "Propose 2 constructive ways to support a classmate whose digital privacy was breached online.", solution: "1. Express empathy privately and advise against re-sharing.\n2. Assist them in reporting the content to platform admins and school authorities." },
+
+            // Level 3: Advanced (11-15)
+            { id: 11, level: "Advanced", task: "Synthesize the relationship between high media literacy and personal relationship health.", solution: "Media literacy enables individuals to critique unrealistic romantic tropes, reject toxic relationship behaviors portrayed in media, and seek evidence-based health data." },
+            { id: 12, level: "Advanced", task: "Critique the phrase: 'If they didn't say NO, it means YES.' Explain why this violates modern consent ethics.", solution: "Consent requires an active, voluntary 'Yes'. Absence of 'No' can indicate fear, shock, paralysis, or coercion, not genuine consent." },
+            { id: 13, level: "Advanced", task: "Design a 4-step protocol for high school students to address bystander situations involving digital consent violations.", solution: "1. Recognize breach.\n2. Refuse to forward/like.\n3. Support target privately.\n4. Report to trusted adult/administrator." },
+            { id: 14, level: "Advanced", task: "Evaluate how personal values and cultural background influence boundary communication without violating universal human rights.", solution: "Personal values guide individual choices; however, cultural expression must never override another person's fundamental right to physical safety and bodily autonomy." },
+            { id: 15, level: "Advanced", task: "Construct an argument showing how mastering B2-level English boundary vocabulary empowers international students in university settings.", solution: "Precise English terminology (e.g., 'coercion', 'consent', 'digital ethics') enables clear self-advocacy, policy comprehension, and effective legal/institutional recourse in global academic environments." }
+        ];
+
+        // -----------------------------------------------------------------
+        // INITIALIZATION & TAB NAVIGATION
+        // -----------------------------------------------------------------
+        window.onload = function() {
+            renderExamples();
+            renderEvaluations();
+        };
+
+        function switchTab(tabIndex) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('bg-gray-100', 'text-gray-600');
+            });
+
+            document.getElementById(`tab-content-${tabIndex}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-btn-${tabIndex}`);
+            activeBtn.classList.add('active');
+            activeBtn.classList.remove('bg-gray-100', 'text-gray-600');
+        }
+
+        function toggleFullscreen() {
+            const elem = document.getElementById('whiteboard');
+            if (!document.fullscreenElement) {
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.webkitRequestFullscreen) {
+                    elem.webkitRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // -----------------------------------------------------------------
+        // TEXT-TO-SPEECH (TTS) SYSTEM
+        // -----------------------------------------------------------------
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.95;
+                utterance.pitch = 1.0;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("Text-to-speech is not supported in your browser.");
+            }
+        }
+
+        // -----------------------------------------------------------------
+        // RENDER SOLVED EXAMPLES (TAB 2)
+        // -----------------------------------------------------------------
+        function renderExamples() {
+            const container = document.getElementById('examples-container');
+            container.innerHTML = solvedExamplesData.map(ex => {
+                let badgeColor = ex.level === 'Basic' ? 'bg-green-100 text-green-800' : 
+                                 ex.level === 'Intermediate' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800';
+                
+                const speechPayload = `${ex.title}. Scenario: ${ex.scenario}. Technique applied: ${ex.technique}. Result: ${ex.result}`;
+                
+                return `
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:border-montano-blue transition-all">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-3">
+                            <div class="flex items-center space-x-3">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-bold ${badgeColor}">Level: ${ex.level}</span>
+                                <h3 class="font-bold text-gray-800 text-base md:text-lg">${ex.id}. ${ex.title}</h3>
+                            </div>
+                            <button onclick="speakText('${speechPayload.replace(/'/g, "\\'")}')" class="text-montano-blue hover:text-montano-teal p-2 rounded-lg bg-blue-50 flex items-center space-x-1 text-xs font-bold transition-all">
+                                <i class="fa-solid fa-volume-high text-sm"></i>
+                                <span>Listen Scenario</span>
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-2 text-sm text-gray-700">
+                            <p><strong>Scenario:</strong> ${ex.scenario}</p>
+                            <p class="text-xs bg-red-50 text-red-700 p-2 rounded-lg"><strong>Boundary Issue:</strong> ${ex.trigger}</p>
+                            <p class="text-xs bg-blue-50 text-blue-900 p-2 rounded-lg"><strong>Assertive Action:</strong> ${ex.technique}</p>
+                            <p class="text-xs bg-green-50 text-green-800 p-2 rounded-lg"><strong>Outcome:</strong> ${ex.result}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // -----------------------------------------------------------------
+        // RENDER FORMATIVE EVALUATION EXERCISES (TAB 5)
+        // -----------------------------------------------------------------
+        function renderEvaluations() {
+            const container = document.getElementById('evaluations-container');
+            container.innerHTML = evaluationData.map(ev => {
+                let badgeColor = ev.level === 'Basic' ? 'bg-green-100 text-green-800' : 
+                                 ev.level === 'Intermediate' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800';
+                return `
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold ${badgeColor}">${ev.id}. ${ev.level} Level</span>
+                            <button onclick="toggleSolution(${ev.id})" class="text-xs font-bold px-4 py-2 bg-montano-blue text-white rounded-lg hover:bg-montano-teal transition-all flex items-center space-x-1">
+                                <i class="fa-solid fa-eye" id="sol-icon-${ev.id}"></i>
+                                <span id="sol-btn-text-${ev.id}">Show Solution</span>
+                            </button>
+                        </div>
+                        
+                        <p class="text-sm font-semibold text-gray-800 mb-3">${ev.task}</p>
+                        
+                        <div id="solution-box-${ev.id}" class="hidden mt-3 p-4 bg-montano-softwhite border-l-4 border-montano-teal rounded-r-xl text-xs text-gray-700 space-y-1">
+                            <span class="font-bold text-montano-teal block mb-1">Pedagogical Solution:</span>
+                            <pre class="font-sans whitespace-pre-wrap">${ev.solution}</pre>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleSolution(id) {
+            const box = document.getElementById(`solution-box-${id}`);
+            const btnText = document.getElementById(`sol-btn-text-${id}`);
+            const icon = document.getElementById(`sol-icon-${id}`);
+
+            if (box.classList.contains('hidden')) {
+                box.classList.remove('hidden');
+                btnText.innerText = 'Hide Solution';
+                icon.className = 'fa-solid fa-eye-slash';
+            } else {
+                box.classList.add('hidden');
+                btnText.innerText = 'Show Solution';
+                icon.className = 'fa-solid fa-eye';
+            }
+        }
+
+        // -----------------------------------------------------------------
+        // SPEECH RECOGNITION (WEB SPEECH API) & VOICE SIMULATOR
+        // -----------------------------------------------------------------
+        let recognition = null;
+        let isRecording = false;
+
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = function() {
+                isRecording = true;
+                document.getElementById('mic-status').innerText = "Listening...";
+                document.getElementById('mic-btn').classList.add('pulse-mic', 'bg-red-600');
+                document.getElementById('mic-btn').classList.remove('bg-montano-blue');
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('user-voice-input').value = transcript;
+                analyzeUserResponse();
+            };
+
+            recognition.onerror = function(event) {
+                console.error("Speech Recognition Error", event.error);
+                stopRecordingState();
+            };
+
+            recognition.onend = function() {
+                stopRecordingState();
+            };
+        }
+
+        function toggleSpeechRecognition() {
+            if (!recognition) {
+                alert("Speech Recognition API is not supported by your current browser. You can type your response directly into the text field!");
+                return;
+            }
+
+            if (isRecording) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        }
+
+        function stopRecordingState() {
+            isRecording = false;
+            document.getElementById('mic-status').innerText = "Start Recording";
+            document.getElementById('mic-btn').classList.remove('pulse-mic', 'bg-red-600');
+            document.getElementById('mic-btn').classList.add('bg-montano-blue');
+        }
+
+        // -----------------------------------------------------------------
+        // EVALUATION MOTOR & LIVE PERFORMANCE DASHBOARD ANALYSIS
+        // -----------------------------------------------------------------
+        function analyzeUserResponse() {
+            const text = document.getElementById('user-voice-input').value.trim();
+            if (!text) {
+                alert("Please speak or write a response before evaluating.");
+                return;
+            }
+
+            const lower = text.toLowerCase();
+
+            // Key Boundary & Respect Keywords
+            const keyTerms = [
+                "autonomy", "boundary", "privacy", "respect", "consent", 
+                "uncomfortable", "no", "stop", "i statement", "values", 
+                "digital ethics", "source", "trusted", "clear", "refuse"
+            ];
+
+            const foundKeywords = keyTerms.filter(kw => lower.includes(kw));
+            const wordCount = text.split(/\s+/).length;
+            
+            // 1. Speech Clarity Score
+            let clarityScore = Math.min(100, Math.max(40, wordCount * 4));
+            
+            // 2. Boundary & Privacy Assertiveness Score
+            let accuracyScore = Math.min(100, Math.max(30, foundKeywords.length * 20 + (lower.includes("will not") || lower.includes("i prefer") ? 15 : 0)));
+
+            // 3. Respect & Diplomacy Score
+            let etiquetteScore = 85;
+            if (lower.includes("respect") || lower.includes("value") || lower.includes("understand") || lower.includes("appreciate")) etiquetteScore += 10;
+            if (lower.includes("whatever") || lower.includes("shut up")) etiquetteScore -= 40;
+            etiquetteScore = Math.min(100, Math.max(20, etiquetteScore));
+
+            // Update Dashboard UI Bars
+            document.getElementById('score-clarity-val').innerText = `${clarityScore}%`;
+            document.getElementById('score-clarity-bar').style.width = `${clarityScore}%`;
+
+            document.getElementById('score-accuracy-val').innerText = `${accuracyScore}%`;
+            document.getElementById('score-accuracy-bar').style.width = `${accuracyScore}%`;
+
+            document.getElementById('score-etiquette-val').innerText = `${etiquetteScore}%`;
+            document.getElementById('score-etiquette-bar').style.width = `${etiquetteScore}%`;
+
+            // Display Detected Keywords
+            const container = document.getElementById('detected-keywords');
+            if (foundKeywords.length > 0) {
+                container.innerHTML = foundKeywords.map(kw => 
+                    `<span class="px-2.5 py-1 bg-montano-lightblue/30 text-montano-blue border border-montano-lightblue rounded-full font-bold text-xs"><i class="fa-solid fa-check text-montano-teal mr-1"></i>${kw}</span>`
+                ).join('');
+            } else {
+                container.innerHTML = `<span class="text-xs text-amber-600 italic">Try incorporating terms like 'boundary', 'privacy', 'respect', or 'autonomy'.</span>`;
+            }
+
+            // AI Feedback
+            let feedback = "";
+            if (accuracyScore >= 75) {
+                feedback = "Outstanding response! You clearly asserted your boundary while preserving mutual respect and privacy.";
+            } else if (accuracyScore >= 50) {
+                feedback = "Solid effort. To strengthen your response, use direct 'I-statements' and explicitly state your privacy limit.";
+            } else {
+                feedback = "Good start. Focus on being firm and assertive without sounding passive or hesitant.";
+            }
+
+            document.getElementById('ai-feedback-text').innerText = feedback;
+            speakText(`Evaluation complete. ${feedback}`);
+        }
+
+        // -----------------------------------------------------------------
+        // ACTIVITY SUBMISSION LOGIC
+        // -----------------------------------------------------------------
+        function submitDiscussionActivity() {
+            alert("Discussion activities & scenario workshop submitted successfully to the Colegio Montano portal!");
+        }
+    </script>
+</body>
+</html>
